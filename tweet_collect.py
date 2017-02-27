@@ -1,6 +1,7 @@
 import tweepy
 import jsonpickle
-
+from tweepy.streaming import StreamListener
+import json
 
 c_key = '......'
 c_secret = '......'
@@ -29,4 +30,11 @@ with open(fName, 'w') as f:
 
 print ("Total {0} tweets are downloaded, Saved to {1}".format(tweetCount, fName))
 
+
+class stream(StreamListener):
+    	def on_data(self, data):
+		fhOut.write(data)
+		j=json.loads(data)
+		text=j["text"] 	
+		print(text) 
 
