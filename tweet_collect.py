@@ -33,8 +33,12 @@ print ("Total {0} tweets are downloaded, Saved to {1}".format(tweetCount, fName)
 
 class stream(StreamListener):
     	def on_data(self, data):
-		fhOut.write(data)
-		j=json.loads(data)
-		text=j["text"] 	
-		print(text) 
+	    fhOut.write(data)
+	    j=json.loads(data)
+	    text=j["text"] 	
+	    print(text)
+
+	def on_error(self, status):
+	    print("ERROR")
+	    print(status)
 
