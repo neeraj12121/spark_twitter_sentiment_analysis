@@ -46,7 +46,7 @@ class stream(StreamListener):
 
 def main():
     fhOut = open("tweetdata.json","a")
-    l = StdOutListener()
+    l = stream()
     stream = Stream(auth, l)	
     stream.filter(track=["pepsi"])
     fhOut.close()
