@@ -43,3 +43,16 @@ class stream(StreamListener):
 	print("ERROR")
 	print(status)
 
+
+def main():
+    fhOut = open("tweetdata.json","a")
+    l = StdOutListener()
+    stream = Stream(auth, l)	
+    stream.filter(track=["pepsi"])
+    fhOut.close()
+
+
+    
+
+
+
