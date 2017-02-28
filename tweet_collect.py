@@ -10,13 +10,11 @@ token_secret = '......'
 
 auth = tweepy.OAuthHandler(c_key,c_secret)
 auth.set_access_token(token_key,token_secret)
-
 api = tweepy.API(auth)
 
 totalTweets=1000
 fName='tweets.json'
 tweetCount = 0
-
 
 with open(fName, 'w') as f:
     while tweetCount < maxTweets:
@@ -51,8 +49,9 @@ def main():
     stream.filter(track=["pepsi"])
     fhOut.close()
 
+main()
 
-    
+
 
 
 
