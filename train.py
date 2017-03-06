@@ -9,8 +9,8 @@ stop_words = set(stopwords.words('english'))
 
 def tokenize(text):
     word_tokens = word_tokenize(text)
-    filtered_sentence = [w for w in word_tokens if not w in stop_words]
+    lower=[i.lower for i in word_tokens ]
     filtered_sentence = []
-    for w in word_tokens:
+    for w in lower:
         if w not in stop_words:
             filtered_sentence.append(w)
