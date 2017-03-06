@@ -23,7 +23,7 @@ def tokenize(text):
             
     return [w for w in stemmed]
 def cleaningText(text):   
-    preprocesstext1 = ' '.join(re.sub("(@[A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split()).strip().lower()
+    preprocesstext1 = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)|(\d+)"," ",text).split()).strip().lower()
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
     preprocesstext2 = pattern.sub(r"\1\1", preprocesstext1)    
     return preprocesstext2    
