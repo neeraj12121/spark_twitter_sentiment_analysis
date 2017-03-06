@@ -1,6 +1,7 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 from pyspark.mllib.feature import HashingTF, IDF
 
@@ -38,7 +39,10 @@ def tfidf(doc):
     tf_idf = idf.transform(tf)
     return tf_idf
     
-    
+if __name__ == "__main__":
+    sia = SentimentIntensityAnalyzer()
+
+
 
 
              
