@@ -1,7 +1,6 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 from pyspark.mllib.feature import HashingTF, IDF
 
