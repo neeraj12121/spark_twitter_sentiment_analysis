@@ -2,6 +2,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
+import re
 
 
 
@@ -19,4 +20,18 @@ def tokenize(text):
     stemmed=[]
     for w in filtered_sentence:
         stemmed.append(ps.stem(w))
+            
+    return [w for w in stemmed]
+def cleaningText(text):   
+    preprocesstext1 = ' '.join(re.sub("(@[A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split()).strip().lower()
+    pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
+    preprocesstext2 = pattern.sub(r"\1\1", preprocesstext1)    
+    return preprocesstext2    
+
+    
+    
+    
+    
+
+
              
