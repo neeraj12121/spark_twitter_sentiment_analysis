@@ -1,6 +1,9 @@
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+from pyspark.mllib.feature import HashingTF, IDF
 
 import re
 
@@ -28,8 +31,13 @@ def cleaningText(text):
     preprocesstext2 = pattern.sub(r"\1\1", preprocesstext1)    
     return preprocesstext2    
 
-    
-    
+def tfidf(doc):
+    hashingTF = HashingTF()
+    tf = hashingTF.transform(doc)
+    tf.cache()
+    idf = IDF().fit(tf)
+    tf_idf = idf.transform(tf)
+    return tf_idf
     
     
 
