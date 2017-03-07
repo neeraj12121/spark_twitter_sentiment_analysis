@@ -40,6 +40,17 @@ def sentPolarityscore(text):
     return float(sent)
 
 
+def sentPolarity(text):
+    ss = sia.polarity_scores(text)
+    sent = ss['compound']  
+    if sent >= 0.0 and sent < 0.20:
+        return 0
+    elif sent >= 0.20 and sent <= 1.0:
+        return 1
+    else:
+        return -1
+    return sent
+
 def tfidf(doc):
     hashingTF = HashingTF()
     tf = hashingTF.transform(doc)
@@ -54,7 +65,12 @@ def train():
     df = sqlContext.createDataFrame('tweet.json',('id','text'))
     df.withColumn("id", "text")
     df.PrintSchema()
+    cleantweet = df.select('id','text',udfct(df.text).alias('ctext'))
+    cleantweet.head(1)
     
+    sentiscoreUDF = udf(sentPolarityscore,FloatType())
+    sentiUDF = udf(sentPolarity,IntegerType()) 
+
     
     
     
