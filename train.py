@@ -34,6 +34,12 @@ def cleaningText(text):
     preprocesstext2 = pattern.sub(r"\1\1", preprocesstext1)    
     return preprocesstext2    
 
+def sentPolarityscore(text):
+    ss = sia.polarity_scores(text)
+    sent = ss['compound']      
+    return float(sent)
+
+
 def tfidf(doc):
     hashingTF = HashingTF()
     tf = hashingTF.transform(doc)
@@ -48,10 +54,7 @@ def train():
     df = sqlContext.createDataFrame('tweet.json',('id','text'))
     df.withColumn("id", "text")
     df.PrintSchema()
-    cleantweet = df.select('id','text',udfct(df.text).alias('ctext'))
-    cleantweet.head(1)
-
-
+    
     
     
     
