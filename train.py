@@ -6,8 +6,8 @@ from pyspark.mllib.feature import HashingTF, IDF
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import udf
+from pyspark.sql.types import *
 import re
-import string
 
 
 
@@ -44,7 +44,7 @@ def tfidf(doc):
     
 def train():
     udfct = udf(cleaningText,StringType())
-    udftokenize = udf(tokenize,ArrayType(StringType
+    udftokenize = udf(tokenize,ArrayType(StringType))
     df = sqlContext.createDataFrame(tweet.json,('id','text'))
     df.withColumn("id", "text")
 
