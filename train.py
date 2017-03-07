@@ -8,6 +8,8 @@ from pyspark.sql import SQLContext
 from pyspark.sql.functions import udf
 from pyspark.sql.types import StringType, ArrayType, IntegerType, FloatType
 import re
+import string
+
 
 
 
@@ -80,6 +82,8 @@ def train():
 
     tweetFinal = cleantweet3.select('id','text','tokens','sentiscore','sentiment')
     tweetFinal.printSchema()
+    trainingset, validationset = tweetFinal.randomSplit([0.7, 0.3],seed = 12345)
+
 
 
     
