@@ -6,9 +6,8 @@ from pyspark.mllib.feature import HashingTF, IDF
 from pyspark import SparkContext
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import udf
-from pyspark.sql.types import *
+from pyspark.sql.types import StringType, ArrayType, IntegerType, FloatType
 import re
-
 
 
 
@@ -70,6 +69,18 @@ def train():
     
     sentiscoreUDF = udf(sentPolarityscore,FloatType())
     sentiUDF = udf(sentPolarity,IntegerType()) 
+
+
+    cleantweet1 = cleantweet.withColumn("sentiscore",sentiscoreUDF(cleantweet.text))
+    cleantweet2 = cleantweet1.withColumn("sentiment",sentiUDF(cleantweet.text))
+    cleantweet3 = cleantweet2.withColumn("tokens",udftokenize(cleantweet.ctext))
+
+    cleantweet3.printSchema()
+    cleantweet3.show(3)
+
+    tweetFinal = cleantweet3.select('id','text','tokens','sentiscore','sentiment')
+    tweetFinal.printSchema()
+
 
     
     
