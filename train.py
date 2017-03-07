@@ -2,10 +2,13 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
 from pyspark.mllib.feature import HashingTF, IDF
-
+from pyspark import SparkContext
+from pyspark.sql import SQLContext
+from pyspark.sql.functions import udf
 import re
+import string
+
 
 
 
@@ -39,7 +42,18 @@ def tfidf(doc):
     tf_idf = idf.transform(tf)
     return tf_idf
     
+def train():
+    udfct = udf(cleaningText,StringType())
+    udftokenize = udf(tokenize,ArrayType(StringType
+    df = sqlContext.createDataFrame(tweet.json,('id','text'))
+    df.withColumn("id", "text")
+
+    
+    
+    
 if __name__ == "__main__":
+    sc = SparkContext()
+    sqlContext = SQLContext(sc)
     sia = SentimentIntensityAnalyzer()
 
 
