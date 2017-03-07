@@ -45,8 +45,12 @@ def tfidf(doc):
 def train():
     udfct = udf(cleaningText,StringType())
     udftokenize = udf(tokenize,ArrayType(StringType))
-    df = sqlContext.createDataFrame(tweet.json,('id','text'))
+    df = sqlContext.createDataFrame('tweet.json',('id','text'))
     df.withColumn("id", "text")
+    df.PrintSchema()
+    cleantweet = df.select('id','text',udfct(df.text).alias('ctext'))
+    cleantweet.head(1)
+
 
     
     
