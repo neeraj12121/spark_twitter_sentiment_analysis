@@ -109,8 +109,6 @@ def train(sc,sqlContext,sia):
 
 
     
-    
-    
 if __name__ == "__main__":
     sc = SparkContext()
     sqlContext = SQLContext(sc)
