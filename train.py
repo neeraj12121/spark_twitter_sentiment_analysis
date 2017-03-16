@@ -60,7 +60,7 @@ def tfidf(doc):
     tf_idf = idf.transform(tf)
     return tf_idf
     
-def train():
+def train(sc,sqlContext,sia):
     udfct = udf(cleaningText,StringType())
     udftokenize = udf(tokenize,ArrayType(StringType))
     df = sqlContext.createDataFrame('tweet.json',('id','text'))
@@ -84,6 +84,28 @@ def train():
     tweetFinal.printSchema()
     trainingset, validationset = tweetFinal.randomSplit([0.7, 0.3],seed = 12345)
 
+    print ('TrainingSet count:',trainingset.count())
+    print ('ValidationSet count:',validationset.count())
+    print ('Total count:',tweetFinal.count())
+
+    train = add_tfidf_to_dataframe(trainingset,"tokens")
+    train.printSchema()
+    tweetRDDtrain = train.select('sentiment','xTFIDF').rdd
+    train_labelpoint = tweetRDDtrain.map(lambda (label, text): LabeledPoint(label, text))
+    train_labelpoint.take(2)
+    train_labelpoint.persist()
+    validation = add_tfidf_to_dataframe(validationset,"tokens")
+    validation.printSchema()
+    tweetRDDvalid = validation.select('sentiment','xTFIDF').rdd
+    valid_labelpoint = tweetRDDvalid.map(lambda (label, text): LabeledPoint(label, text))
+    valid_labelpoint.take(2)
+    valid_labelpoint.persist()
+    modelNB = NaiveBayes.train(train_labelpoint)
+    predictionAndLabel = valid_labelpoint.map(lambda p: (float(modelNB.predict(p.features)), p.label))
+    correct = predictionAndLabel.filter(lambda (predicted, actual): predicted == actual)
+    accuracy = correct.count() / float(valid_labelpoint.count())
+
+    print ("Classifier correctly predicted category " + str(accuracy * 100) + " percent of the time")
 
 
     
@@ -93,6 +115,7 @@ if __name__ == "__main__":
     sc = SparkContext()
     sqlContext = SQLContext(sc)
     sia = SentimentIntensityAnalyzer()
+    train(sc,sqlContext,sia)
 
 
 
