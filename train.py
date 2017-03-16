@@ -107,8 +107,6 @@ def train(sc,sqlContext,sia):
 
     print ("Classifier correctly predicted category " + str(accuracy * 100) + " percent of the time")
 
-
-    
 if __name__ == "__main__":
     sc = SparkContext()
     sqlContext = SQLContext(sc)
