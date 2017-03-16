@@ -107,6 +107,20 @@ def train(sc,sqlContext,sia):
 
     print ("Classifier correctly predicted category " + str(accuracy * 100) + " percent of the time")
 
+    metrics = MulticlassMetrics(predictionAndLabel)
+    confusion_matrix = metrics.confusionMatrix()
+    print (confusion_matrix)
+    precision = metrics.precision()
+    recall = metrics.recall()
+    f1Score = metrics.fMeasure()
+
+    print("Precision = %s" % precision)
+    print("Recall = %s" % recall)
+    print("F1 Score = %s" % f1Score)
+    modelNB.save(sc,'NB_SentimentModel')
+
+
+
 if __name__ == "__main__":
     sc = SparkContext()
     sqlContext = SQLContext(sc)
